@@ -7,7 +7,7 @@ import Notes from "reveal.js/plugin/notes";
 import Highlight from "reveal.js/plugin/highlight";
 import Mermaid from "@benjilegnard/reveal.js-mermaid-plugin";
 import { flavors } from "@catppuccin/palette";
-const { colors } = flavors.mocha;
+const { colors } = flavors.latte;
 
 let deck = new Reveal({
   plugins: [Markdown, Mermaid, Notes, Highlight],
