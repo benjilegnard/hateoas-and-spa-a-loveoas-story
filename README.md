@@ -2,14 +2,14 @@
 lang: fr
 ---
 
-# HATEOAS & NGRX, a LOVE(OAS) story.
+# HATEOAS & ANGULAR, a LOVE(OAS) story.
 
-Une conférence sur les avantages d'HATEOAS côté front. Principalement pour présenter des utilitaires sur `ngrx-hateoas` et comment réconcilier les deux.
+Une conférence sur les avantages d'HATEOAS côté front. Principalement pour présenter des utilitaires front et comment réconcilier les deux états, back et front.
 
 ## Abstract
 
 ```markdown
-« HATEOAS ». Le mot qui fait fuir les devs front en réunion d'archi, juste après « microservices » et « on va tout refaire ».
+« HATEOAS ». Le mot qui fait fuir les devs front en réunion d'archi, juste après « microservices » et « on va tout réécrire (en Rust) ».
 
 Pourtant, derrière cet acronyme imprononçable se cache une idée romantique: et si le backend arrêtait de nous mentir, et nous disait enfin comment l'utiliser ?
 
@@ -38,7 +38,18 @@ __Plan__ :
 
 ## Introduction
 
-- HATEOAS c'est quoi
+- Votre speaker du jour (moi)
+- Ice breaker
+  - Qui a déjà fait ou développé dans des projets avec API REST ici ?
+  - Qui s'est déjà pris la tête sur des API RESTs ?
+- REST c'est quoi ?
+  - version troll
+  - version roy fielding
+  - version réèlle
+- Notre Casting, Alice et Bernard
+
+## Chapitre 0: la rencontre
+- REST & HATEOAS c'est quoi
 - une SPA c'est quoi ?
 - REST, c'est quoi ?
 - maturité des APIs rest
@@ -80,20 +91,20 @@ On regarde, feature par feature, comment Angular moderne (signals, `resource()`,
 - état de pagination dans la query string vs dans un store : qui gagne ?
 - liste infinie / "load more" reconstruite à partir des `_links`
 
+### features de permissions
+
+- afficher/masquer une action selon la présence d'un lien `_links` ou `_templates`
+- boutons "Éditer / Supprimer / Valider" pilotés par ce que le back autorise vraiment
+- fini les permissions dupliquées (et désynchronisées) des deux côtés
+- une pipe `hasLink` pour rendre tout ça déclaratif dans le template
+- sécurité: le front *montre*, le back *décide* (le lien n'est qu'un indice d'UI)
+
 ### features de formulaires (HAL-FORMS)
 
 - décrire un formulaire à partir de la ressource (champs, types, contraintes)
 - réutiliser les `_templates` (HAL-FORMS) pour générer des ~~Reactive Forms~~ signal-forms dynamiquement
 - validation pilotée par le back (required, regex, min/max) => plus de duplication de la validation.
 - limites: champs custom, UX fine, widgets métier => là où le générique craque
-
-### features de permissions ("_actions")
-
-- afficher/masquer une action selon la présence d'un lien `_actions`
-- boutons "Éditer / Supprimer / Valider" pilotés par ce que le back autorise vraiment
-- fini les permissions dupliquées (et désynchronisées) des deux côtés
-- une directive `*ifAction` / `hasLink` pour rendre tout ça déclaratif dans le template
-- sécurité: le front *montre*, le back *décide* (le lien n'est qu'un indice d'UI)
 
 ## Démo / overview du code
 
