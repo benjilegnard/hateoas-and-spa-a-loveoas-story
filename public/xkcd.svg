@@ -23,6 +23,11 @@
       stroke-linecap: round;
     }
 
+    /* Inherited by the strokes of all the figure symbols */
+    .xkcd .xkcd-figure {
+      stroke-width: 3;
+    }
+
     /* Only the head moves, pivoting on the neck */
     .xkcd .xkcd-head {
       transform-box: view-box;
@@ -57,41 +62,41 @@
       The head is a separate symbol, so it can be animated on its own.
     -->
     <symbol id="xkcd-head" viewBox="0 0 200 280" overflow="visible">
-      <circle cx="100" cy="40" r="28" fill="none" stroke="currentColor" stroke-width="5" />
+      <circle cx="100" cy="40" r="28" fill="none" stroke="currentColor" />
     </symbol>
 
-    <g id="xkcd-stick" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <g id="xkcd-stick" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
       <path d="M100 68 L100 170 M100 170 L72 266 M100 170 L128 266" />
     </g>
 
     <symbol id="xkcd-pose-idle" viewBox="0 0 200 280" overflow="visible">
       <use href="#xkcd-stick" />
-      <path d="M100 95 L76 160 M100 95 L124 160" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M100 95 L76 160 M100 95 L124 160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     </symbol>
 
     <symbol id="xkcd-pose-talk" viewBox="0 0 200 280" overflow="visible">
       <use href="#xkcd-stick" />
-      <path d="M100 95 L78 158 M100 95 L140 125 L168 104" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M100 95 L78 158 M100 95 L140 125 L168 104" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     </symbol>
 
     <symbol id="xkcd-pose-shrug" viewBox="0 0 200 280" overflow="visible">
       <use href="#xkcd-stick" />
-      <path d="M100 95 L64 118 L48 90 M100 95 L136 118 L152 90" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M100 95 L64 118 L48 90 M100 95 L136 118 L152 90" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     </symbol>
 
     <symbol id="xkcd-pose-armsup" viewBox="0 0 200 280" overflow="visible">
       <use href="#xkcd-stick" />
-      <path d="M100 95 L58 28 M100 95 L142 28" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M100 95 L58 28 M100 95 L142 28" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     </symbol>
 
     <symbol id="xkcd-pose-point" viewBox="0 0 200 280" overflow="visible">
       <use href="#xkcd-stick" />
-      <path d="M100 95 L78 158 M100 95 L186 78" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M100 95 L78 158 M100 95 L186 78" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     </symbol>
 
     <symbol id="xkcd-pose-facepalm" viewBox="0 0 200 280" overflow="visible">
       <use href="#xkcd-stick" />
-      <path d="M100 95 L78 158 M100 95 L146 118 L118 46" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M100 95 L78 158 M100 95 L146 118 L118 46" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
     </symbol>
   </defs>
 </svg>
