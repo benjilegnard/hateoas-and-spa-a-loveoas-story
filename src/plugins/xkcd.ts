@@ -22,13 +22,14 @@ const HEIGHT = 720;
 const FIGURE = { width: 200, height: 280, y: HEIGHT - 280 };
 const SPEAKER_X: Record<Speaker, number> = { A: 200, B: WIDTH - 200 };
 const TEXT_MARGIN = 60;
-const TEXT_TOP = 40;
-const TEXT_BOTTOM = FIGURE.y - 20; // keep the text above the heads
-const FONT_SIZE = 40;
+const TEXT_TOP = 20;
+const TEXT_BOTTOM = FIGURE.y; // keep the text above the heads
+const TEXT_WIDTH = 760; // max width of a line, wrapping is done to fit it
+const CHAR_WIDTH = 0.45; // average character width of xkcd Script, in em
+const FONT_SIZE = 48;
 const LINE_HEIGHT = 1.2;
 const POINTER = 46; // length of the line from the text to the speaker
 const GAP = 14;
-const WRAP = 36; // max characters per line
 
 const LINE_PATTERN = /^\s*([AB])(?:\((\w+)\))?\s*:\s*(.*)$/;
 
@@ -65,11 +66,11 @@ export const parse = (source: string): Utterance[] => {
   return utterances;
 };
 
-const wrap = (text: string): string[] => {
+const wrap = (text: string, maxChars: number): string[] => {
   const lines: string[] = [];
   let current = "";
   for (const word of text.split(/\s+/)) {
-    if (current && current.length + word.length + 1 > WRAP) {
+    if (current && current.length + word.length + 1 > maxChars) {
       lines.push(current);
       current = word;
     } else {
@@ -97,17 +98,35 @@ const figure = (speaker: Speaker): SVGGElement => {
   });
   // Poses are drawn facing right, B is mirrored to face A
   if (speaker === "B") group.setAttribute("transform", `translate(${WIDTH} 0) scale(-1 1)`);
+  const position = {
+    x: SPEAKER_X.A - FIGURE.width / 2,
+    y: FIGURE.y,
+    width: FIGURE.width,
+    height: FIGURE.height,
+  };
   group.append(
-    svgElement("use", {
-      class: "xkcd-body",
-      href: "#xkcd-pose-idle",
-      x: SPEAKER_X.A - FIGURE.width / 2,
-      y: FIGURE.y,
-      width: FIGURE.width,
-      height: FIGURE.height,
-    }),
+    svgElement("use", { class: "xkcd-body", href: "#xkcd-pose-idle", ...position }),
+    svgElement("use", { class: "xkcd-head", href: "#xkcd-head", ...position }),
   );
   return group;
+};
+
+/**
+ * Finds the biggest scale at which the dialogue fits above the heads.
+ * Smaller text also means more characters per line, so lines are re-wrapped
+ * at each step.
+ */
+const layout = (utterances: Utterance[]) => {
+  let scale = 1;
+  for (;;) {
+    const maxChars = Math.floor(TEXT_WIDTH / (CHAR_WIDTH * FONT_SIZE * scale));
+    const wrapped = utterances.map(({ text }) => wrap(text, maxChars));
+    const lines = wrapped.reduce((total, { length }) => total + length, 0);
+    const height =
+      (lines * FONT_SIZE * LINE_HEIGHT + utterances.length * (POINTER + GAP) - GAP) * scale;
+    if (height <= TEXT_BOTTOM - TEXT_TOP || scale <= 0.2) return { scale, wrapped };
+    scale -= 0.01;
+  }
 };
 
 export const render = (utterances: Utterance[]): SVGSVGElement => {
@@ -118,13 +137,7 @@ export const render = (utterances: Utterance[]): SVGSVGElement => {
   });
   svg.append(figure("A"), figure("B"));
 
-  // Shrink everything proportionally when the dialogue is too long
-  const wrapped = utterances.map(({ text }) => wrap(text));
-  const naturalHeight = wrapped.reduce(
-    (total, lines) => total + lines.length * FONT_SIZE * LINE_HEIGHT + POINTER + GAP,
-    0,
-  );
-  const scale = Math.min(1, (TEXT_BOTTOM - TEXT_TOP) / naturalHeight);
+  const { scale, wrapped } = layout(utterances);
   const fontSize = FONT_SIZE * scale;
   const lineHeight = fontSize * LINE_HEIGHT;
 
