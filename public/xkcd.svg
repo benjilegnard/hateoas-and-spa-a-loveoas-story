@@ -41,10 +41,10 @@
 
     @keyframes xkcd-bob {
       from {
-        transform: rotate(-6deg) translateY(0);
+        transform: rotate(-6deg);
       }
       to {
-        transform: rotate(6deg) translateY(-3px);
+        transform: rotate(6deg);
       }
     }
 
