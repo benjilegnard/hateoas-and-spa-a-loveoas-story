@@ -253,6 +253,16 @@ stateDiagram-v2
 ```
 
 
+```xkcd
+A: Hi Bob, have you ever heard of HATEOAS?
+B(shrug): Is that some kind of French cheese?
+A(facepalm): No... It's about putting links in your API responses,
+  so the client knows what it can do next.
+B(armsup): So my SPA doesn't need to hardcode every URL?
+A(point): Exactly!
+```
+
+
 ```typescript
 export interface PaginationState {
   currentPage: number;

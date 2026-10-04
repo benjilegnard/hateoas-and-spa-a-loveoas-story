@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="xkcd-sprite" aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+  <!--
+    Shared definitions of the xkcd plugin (src/plugins/xkcd.ts).
+    Inlined at the top of <body> by vite.config.ts, so every generated
+    diagram can reference these ids with <use href="#..."> / url(#...).
+  -->
+  <style>
+    @font-face {
+      font-family: "xkcd Script";
+      src: url("/fonts/xkcd-script.woff") format("woff");
+      font-display: block;
+    }
+
+    .xkcd text {
+      font-family: "xkcd Script", "Comic Sans MS", cursive;
+      fill: currentColor;
+    }
+
+    .xkcd .xkcd-pointer {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .xkcd .xkcd-figure,
+    .xkcd .xkcd-pointer {
+      filter: url(#xkcd-wobble);
+    }
+
+    .xkcd .xkcd-body {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+    }
+
+    .xkcd[data-talking="A"] .xkcd-figure-a .xkcd-body,
+    .xkcd[data-talking="B"] .xkcd-figure-b .xkcd-body {
+      animation: xkcd-bob 0.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes xkcd-bob {
+      from {
+        transform: rotate(-1.5deg) translateY(0);
+      }
+      to {
+        transform: rotate(1.5deg) translateY(-6px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .xkcd .xkcd-body {
+        animation: none !important;
+      }
+    }
+  </style>
+
+  <defs>
+    <!-- Hand-drawn look: slightly displaces strokes -->
+    <filter id="xkcd-wobble" filterUnits="userSpaceOnUse" x="-500" y="-500" width="3000" height="2000">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="7" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+
+    <!--
+      Stick figures, all 200x280, facing right (towards the other character),
+      head centered at (100, 40), feet at y = 268.
+    -->
+    <g id="xkcd-stick" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="100" cy="40" r="28" />
+      <path d="M100 68 L100 170 M100 170 L72 266 M100 170 L128 266" />
+    </g>
+
+    <symbol id="xkcd-pose-idle" viewBox="0 0 200 280" overflow="visible">
+      <use href="#xkcd-stick" />
+      <path d="M100 95 L76 160 M100 95 L124 160" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+
+    <symbol id="xkcd-pose-talk" viewBox="0 0 200 280" overflow="visible">
+      <use href="#xkcd-stick" />
+      <path d="M100 95 L78 158 M100 95 L140 125 L168 104" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+
+    <symbol id="xkcd-pose-shrug" viewBox="0 0 200 280" overflow="visible">
+      <use href="#xkcd-stick" />
+      <path d="M100 95 L64 118 L48 90 M100 95 L136 118 L152 90" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+
+    <symbol id="xkcd-pose-armsup" viewBox="0 0 200 280" overflow="visible">
+      <use href="#xkcd-stick" />
+      <path d="M100 95 L58 28 M100 95 L142 28" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+
+    <symbol id="xkcd-pose-point" viewBox="0 0 200 280" overflow="visible">
+      <use href="#xkcd-stick" />
+      <path d="M100 95 L78 158 M100 95 L186 78" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+
+    <symbol id="xkcd-pose-facepalm" viewBox="0 0 200 280" overflow="visible">
+      <use href="#xkcd-stick" />
+      <path d="M100 95 L78 158 M100 95 L146 118 L118 46" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+  </defs>
+</svg>

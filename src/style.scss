@@ -78,9 +78,19 @@ iframe {
   border-radius: 0.3em;
 }
 
+// custom xkcd render
+.reveal .xkcd {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  color: $text;
+}
+
 // sequence diagrams ignore mermaid's useGradient, use the shared gradient from index.html
 // (only on boxes: a bounding box gradient on a straight line has 0 width/height and hides it)
 .reveal svg[aria-roledescription="sequence"] {
+
   rect.actor,
   rect.note,
   .labelBox {
@@ -102,6 +112,13 @@ iframe {
 }
 
 @keyframes troll-wobble {
-  0%, 100% { transform: rotate(-6deg); }
-  50% { transform: rotate(6deg); }
+
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+
+  50% {
+    transform: rotate(6deg);
+  }
 }
