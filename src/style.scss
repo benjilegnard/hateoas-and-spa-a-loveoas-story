@@ -39,3 +39,41 @@ iframe {
 }
 
 @import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
+
+// Custom code for this talk
+
+// stacking context on the parent: the code::before box stays above the slide
+// background, but below the code element's own background (the gradient text)
+.reveal li:has(> code) {
+  isolation: isolate;
+}
+
+// code that is not inside a <pre> (inline)
+.reveal li>code {
+  position: relative;
+  padding: 0.1em 0.3em;
+  background-image: linear-gradient(to right, $mauve, $pink);
+  background-origin: content-box; // gradient spans the text only, not the padding
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  // white box and border, drawn behind the gradient text
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: $base;
+    // border: 1px solid $subtext1;
+    border-radius: 0.3em;
+  }
+}
+
+// code blocks 
+.reveal pre>code,
+.reveal blockquote {
+  background-color: $base;
+  border-radius: 0.3em;
+}
