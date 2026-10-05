@@ -77,3 +77,21 @@ iframe {
   background-color: $base;
   border-radius: 0.3em;
 }
+
+// slides content
+.trollface {
+  --trollsize: 96px;
+  width: var(--trollsize);
+  height: var(--trollsize);
+  background-image: url("./images/troll-face.svg");
+  background-size: var(--trollsize) var(--trollsize);
+  background-repeat: no-repeat;
+  margin: 0 auto;
+  transform-origin: center;
+  animation: troll-wobble 1.2s ease-in-out infinite;
+}
+
+@keyframes troll-wobble {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+}
