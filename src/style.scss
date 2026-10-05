@@ -101,14 +101,28 @@ iframe {
 // slides content
 .trollface {
   --trollsize: 96px;
-  width: var(--trollsize);
-  height: var(--trollsize);
-  background-image: url("./images/troll-face.svg");
-  background-size: var(--trollsize) var(--trollsize);
-  background-repeat: no-repeat;
+  // room for the rotated face (a square rotated by 6deg needs ~1.1x its size)
+  width: calc(var(--trollsize) * 1.1);
+  height: calc(var(--trollsize) * 1.1);
   margin: 0 auto;
-  transform-origin: center;
-  animation: troll-wobble 1.2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // the rotation changes the slide scrollHeight, which reveal uses to center the slide
+  // on each fragment step: clip it so the slide does not move (and the text is not repainted)
+  overflow: clip;
+
+  &::after {
+    content: "";
+    width: var(--trollsize);
+    height: var(--trollsize);
+    flex: 0 0 auto;
+    background-image: url("images/troll-face.svg");
+    background-size: var(--trollsize) var(--trollsize);
+    background-repeat: no-repeat;
+    transform-origin: center;
+    animation: troll-wobble 1.2s ease-in-out infinite;
+  }
 }
 
 @keyframes troll-wobble {
