@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc & vite build",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -27,9 +27,9 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.8.1",
+      "version": "12.9.1",
       "onFail": "download"
     }
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.9.1"
 }
