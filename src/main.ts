@@ -25,7 +25,7 @@ deck.initialize({
   mermaid: {
     theme: "base",
     themeVariables: {
-      darkMode: true,
+      darkMode: false,
       background: colors.crust.hex,
       fontFamily: "Poppins, Helvetica, sans-serif",
       primaryColor: colors.surface0.hex,
@@ -36,6 +36,16 @@ deck.initialize({
       tertiaryColor: colors.base.hex,
       lineColor: colors.overlay2.hex,
       textColor: colors.subtext1.hex,
+      edgeLabelBackground: colors.base.hex,
+      relationLabelBackground: colors.base.hex,
+      // sequence diagram
+      noteBkgColor: colors.mantle.hex,
+      noteBorderColor: colors.pink.hex,
+      noteTextColor: colors.text.hex,
+      activationBkgColor: colors.surface1.hex,
+      activationBorderColor: colors.mauve.hex,
+      actorLineColor: colors.overlay1.hex,
+      signalColor: colors.overlay2.hex,
     },
   },
 });
