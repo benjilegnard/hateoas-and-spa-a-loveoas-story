@@ -1,16 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" id="xkcd-sprite" aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
   <!--
     Shared definitions of the xkcd plugin (src/plugins/xkcd.ts).
-    Inlined at the top of <body> by vite.config.ts, so every generated
-    diagram can reference these ids with <use href="#..."> / url(#...).
+    Inlined at the top of <body> by the plugin, so every generated
+    diagram can reference these ids with <use href="#...">.
+    The "xkcd Script" font is registered by the plugin too, so Vite
+    resolves its URL (base path, hash).
   -->
   <style>
-    @font-face {
-      font-family: "xkcd Script";
-      src: url("/fonts/xkcd-script.woff") format("woff");
-      font-display: block;
-    }
-
     .xkcd text {
       font-family: "xkcd Script", "Comic Sans MS", cursive;
       fill: currentColor;

@@ -1,4 +1,6 @@
 import type { RevealApi, RevealPlugin } from "reveal.js";
+import sprite from "./xkcd.svg?raw";
+import fontUrl from "./xkcd-script.woff?url";
 
 export interface XkcdPlugin extends RevealPlugin {
   id: "xkcd";
@@ -16,7 +18,7 @@ interface Utterance {
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-// Layout, in viewBox units (the symbols in public/xkcd.svg are 200x280)
+// Layout, in viewBox units (the symbols in xkcd.svg are 200x280)
 const WIDTH = 1280;
 const HEIGHT = 720;
 const FIGURE = { width: 200, height: 280, y: HEIGHT - 280 };
@@ -205,9 +207,20 @@ const sync = (svg: SVGSVGElement) => {
 };
 
 /**
+ * Adds the sprite (symbols and styles) at the top of <body>, and registers the
+ * "xkcd Script" font. Done here rather than in the sprite's <style>, so Vite
+ * resolves the font URL (base path, hash).
+ */
+const install = () => {
+  if (document.getElementById("xkcd-sprite")) return;
+  document.body.insertAdjacentHTML("afterbegin", sprite);
+  document.fonts.add(new FontFace("xkcd Script", `url(${fontUrl}) format("woff")`, { display: "block" }));
+};
+
+/**
  * Renders ```xkcd code blocks produced by the markdown plugin
  * (marked outputs them as <pre><code class="language-xkcd">) into inline SVG
- * dialogues, using the definitions of public/xkcd.svg.
+ * dialogues, using the definitions of xkcd.svg.
  *
  * Must be registered after Markdown and before Highlight, so it runs once
  * slides are converted and before highlight.js touches the code blocks.
@@ -216,6 +229,8 @@ const Xkcd = (): XkcdPlugin => ({
   id: "xkcd",
 
   init(deck: RevealApi) {
+    install();
+
     const blocks =
       deck
         .getRevealElement()

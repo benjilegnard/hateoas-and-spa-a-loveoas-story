@@ -160,3 +160,6 @@ Sources
 
 - essai de roy fielding : <https://ics.uci.edu/~fielding/pubs/dissertation/>
 - chaque ligne de code est de la dette technique : <https://x.com/matteocollina/status/2072762093346922907>
+- comics / conversations inspirées de [XKCD](https://xkcd.com)
+- police XKCD sous licence CC BY-NC 3.0 récupérée de <https://github.com/ipython/xkcd-font>
+
