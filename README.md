@@ -6,6 +6,8 @@ lang: fr
 
 Une conférence sur les avantages d'HATEOAS côté front. Principalement pour présenter des utilitaires front et comment réconcilier les deux états, back et front.
 
+Slides visibles ici : <https://benjilegnard.github.io/hateoas-and-spa-a-loveoas-story/>
+
 ## Abstract
 
 ```markdown
@@ -145,7 +147,7 @@ On regarde, feature par feature, comment Angular moderne (signals, `resource()`,
 
 ---
 
-Sources
+## Sources
 - restguide : <https://www.restguide.info/hateoas>
 - specs : 
   - HAL : <https://stateless.co/hal_specification.html>
