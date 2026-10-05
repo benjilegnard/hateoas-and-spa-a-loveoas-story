@@ -78,6 +78,16 @@ iframe {
   border-radius: 0.3em;
 }
 
+// sequence diagrams ignore mermaid's useGradient, use the shared gradient from index.html
+// (only on boxes: a bounding box gradient on a straight line has 0 width/height and hides it)
+.reveal svg[aria-roledescription="sequence"] {
+  rect.actor,
+  rect.note,
+  .labelBox {
+    stroke: url(#mermaid-border-gradient) !important;
+  }
+}
+
 // slides content
 .trollface {
   --trollsize: 96px;

@@ -12,6 +12,14 @@
     <meta name="keywords" content="" />
   </head>
   <body>
+    <!-- shared gradient for mermaid diagrams that don't support useGradient (sequence) -->
+    <!-- size 0 instead of display:none, hidden svg gradients are not rendered -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <linearGradient id="mermaid-border-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#8839ef" /><!-- latte mauve -->
+        <stop offset="100%" stop-color="#ea76cb" /><!-- latte pink -->
+      </linearGradient>
+    </svg>
     <div class="reveal">
       <div class="slides">
         <section
