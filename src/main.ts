@@ -7,11 +7,12 @@ import Notes from "reveal.js/plugin/notes";
 import Highlight from "reveal.js/plugin/highlight";
 import Mermaid from "@benjilegnard/reveal.js-mermaid-plugin";
 import Xkcd from "./plugins/xkcd";
+import InlineSvg from "./plugins/inline-svg";
 import { flavors } from "@catppuccin/palette";
 const { colors } = flavors.latte;
 
 let deck = new Reveal({
-  plugins: [Markdown, Mermaid, Xkcd, Notes, Highlight],
+  plugins: [Markdown, Mermaid, Xkcd, InlineSvg, Notes, Highlight],
 });
 
 deck.initialize({

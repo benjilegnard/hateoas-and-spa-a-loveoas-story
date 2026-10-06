@@ -30,15 +30,16 @@ Notes:
 Notes:
 - Une API REST, c'est une API dont le développeur a dit « c'est une API REST » en réunion, et personne n'a osé le contredire.
 - Voilà, fin de la définition pratique utilisée par 95 % de l'industrie.
+- comme Agile, Devops, MVP, diffusion sémantique, on utilise le mot sans son sens d'origine
 - désolé, allez un peu plus sérieusement
 
 
 ### Plus sérieusement
 
-- On renvoie du `JSON` sur du protocole `HTTP`
-- Noms au pluriel dans tes URLs (`/users`, pas `/getUsers`)
-- `GET` pour lire et `POST`... pour tout le reste
-- Erreurs en 200 OK avec un corps de réponse :
+- On renvoie du<!-- .element class="fragment"--> `JSON` sur du protocole `HTTP`
+- Noms au pluriel dans tes URLs (<!-- .element class="fragment"-->`/users`, pas `/getUsers`)
+- <!-- .element class="fragment"--> On fait du`GET` pour lire et `POST`... pour tout le reste
+- Erreurs renvoyées en<!-- .element class="fragment"--> `200 OK` avec un corps de réponse :
 
 ```json
 {
@@ -123,110 +124,112 @@ Notes:
 
 
 ### Bref, Six contraintes
-- une séparation client/serveur
-- des échanges sans état
-- des réponses qui disent si elles sont cachables
-- un système en couches (le client ne sait pas s'il parle au vrai serveur ou à un proxy)
-- éventuellement du code à la demande (la seule contrainte optionnelle, donc la seule que tout le monde respecte)
-- et surtout une __interface uniforme__.
+- une séparation client/serveur<!-- .element class="fragment"-->
+- des échanges sans état<!-- .element class="fragment"-->
+- des réponses qui disent si elles sont cachables<!-- .element class="fragment"-->
+- un système en couches<!-- .element class="fragment"-->
+- éventuellement du code à la demande<!-- .element class="fragment"-->
+- et surtout une<!-- .element class="fragment"--> __interface uniforme__.
 Notes:
 - le minimum vital
 - des échanges sans état (le serveur ne se souvient pas de toi, comme ton ex),
 - un système en couches (le client ne sait pas s'il parle au vrai serveur ou à un proxy)
+- éventuellement du code à la demande (la seule contrainte optionnelle, donc la seule que tout le monde respecte)
 - gros problème c'est l'interface uniforme
-
-
-### HATEOAS
-Hypermedia As The Engine Of Application **S**tate
-- chaque réponse doit contenir les liens vers les actions possibles ensuite.
-- Le client ne devrait connaître qu'une URL d'entrée et naviguer comme un humain sur un site web, en cliquant sur des liens.
-- Si ton frontend a 47 URLs codées en dur, ton API n'est pas REST, c'est du « RPC sur HTTP avec des URLs jolies »
-
-Notes:
-- concept évoqué dès 2000 dans la thèse de fielding
-- article de blogs de 2008
-
-
-### Modèle de maturité de Richardson
-```mermaid
-  block-beta
-    columns 4
-    space:3 L3["Niveau 3<br/>HATEOAS"]
-    space:2 L2["Niveau 2<br/>Verbes HTTP"]:2
-    space:1 L1["Niveau 1<br/>Ressources"]:3
-    L0["Niveau 0<br/>Le marais du POX"]:4
-
-    style L3 fill:#e64553,color:#fff
-```
-
-
-#### Niveau 0
-```mermaid
-  sequenceDiagram
-      participant C as Client
-      participant S as Serveur
-      Note over C,S: un seul endpoint, tout en POST
-      C->>S: POST /api {action: "getUser", id: 42}
-      S-->>C: 200 OK {name: "Ada"}
-      C->>S: POST /api {action: "deleteUser", id: 42}
-      S-->>C: 200 OK {error: "interdit"} 🙃
-```
-
-
-#### Niveau 3
-```mermaid
-  sequenceDiagram
-      participant C as Client
-      participant S as Serveur
-      Note over C,S: la réponse dit quoi faire ensuite
-      C->>S: GET /users/42
-      S-->>C: 200 OK + _links {self, edit, orders}
-      C->>S: PUT (href du lien "edit")
-      S-->>C: 200 OK + _links {self, edit, orders}
-```
 
 
 ---
 ## Prologue : La rencontre
-- Alice, lead dev back (🍃 Spring Boot)
-- Bernard, lead dev front ( 🅰️ Angular)
-- Réunion de kickoff du projet ClubHub pour la FFATS
+- Alice, lead dev back <!-- .element class="fragment"-->(🍃 Spring Boot)
+- Bernard, lead dev front<!-- .element class="fragment"--> ( 🅰️ Angular)
+- Réunion de kickoff du projet ClubHub pour la FFATS<!-- .element class="fragment"-->
 
 Notes:
-- Alice (back, Spring Boot) et John (front, Angular) construisent ClubHub
+- Alice (back, Spring Boot) et Bernard (front, Angular) construisent ClubHub
+- FFATS tous les sports, on récupère tous les SIs de toutes les fédé et on en fait un nouveau par dessus !
+- thème du devfest
+
+
+### ClubHub
+Fédération Francaise d'Absolument Touts les Sports
+<br/>
+Gestion de complexe multisport : salles, réservations, matériel.
+
+Notes:
+- Imaginer l'application (j'ai pas fini donc pas de démo)
+- 6 rôles : visiteur, adhérent, coach, gestionnaire, arbitre, admin
 - TODO
 
 
 ### La scène
 ```xkcd
-A(point): Notre API est RESTful.
+A(point): Notre API sera RESTful !
 B(shrug): Niveau 2, à tout casser.
+A: Ok on visera le niveau HATEOAS
+B(facepalm): ??? (🚪🏃)
 ```
 Notes:
 - réunion d'archi pour ClubHub
-- Alice prononce le mot « HATEOAS », John cherche la sortie de secours
+- Alice prononce le mot « HATEOAS », Bernard cherche la sortie de secours
 - TODO
+- Pour éviter les guéguerres de "est-ce qu'on est REST"
 
 
-### HATEOAS en une phrase
-> Le serveur dit au client ce qu'il peut faire ensuite.
+### Modèle de maturité de Richardson
+<img src="images/richardson-maturity-model.svg" class="inline-svg" />
+Notes:
+- Niveau 0 : un seul endpoint, tout en POST (coucou SOAP).
+- Niveau 1 : des ressources distinctes.
+- Niveau 2 : les bons verbes HTTP et les bons codes de statut, c'est là que vit l'immense majorité des « API REST ».
+- Niveau 3 : HATEOAS, un endroit mythique dont on parle beaucoup mais que peu ont visité.
+
+
+### HATEOAS
+**H**ypermedia **A**s **T**he **E**ngine **O**f **A**pplication **S**tate
+- chaque réponse doit contenir les liens vers les actions possibles ensuite.<!-- .element class="fragment"-->
+- Le client ne devrait connaître qu'une URL d'entrée et naviguer comme un humain sur un site web, en cliquant sur des liens.<!-- .element class="fragment"-->
+- Si ton frontend a 47 URLs codées en dur, ton API n'est pas REST, c'est du « RPC sur HTTP avec des URLs jolies »<!-- .element class="fragment"-->
 
 Notes:
-- TODO
+- concept évoqué dès 2000 dans la thèse de fielding
+- article de blogs de 2008
+- Donc le principe, c'est déjà qu'on va avoir un point d'entrée pour lister toutes nos apis,
+- Puis offrir un moyen de naviguer entre elles
 
 
-### ClubHub
-Un complexe multisport : salles, réservations, matériel.
+
+### Plusieurs specs
+- JSON:API
+- Siren
+- JSON-LD/Hydra.
+- __HAL__
 
 Notes:
-- 6 rôles : visiteur, adhérent, coach, gestionnaire, arbitre, admin
+- il existe plusieurs facons de faire de l'hateoas et des liens entre resources
 - TODO
 
 
-### Le contrat du couple
-HAL
+### HAL
 
-<img src="images/hal-info-model.svg" />.
+pour le coup c'est une spec
+
+<https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-11>
+
+
+<img src="images/hal-info-model.svg" class="inline-svg" />.
+
+
+### Le contrat de base
+
+`GET /api/reservations/42`
+```
+{
+  "statut": "DEMANDEE",
+}
+```
+Notes:
+- basiquement, le niveau 2 
+- beaucoup de nos api font juste ça 
 
 
 ### Le contrat du couple (2)
@@ -263,33 +266,46 @@ Notes:
 - TODO
 
 
+### Takeaways
+- ajouter des champs privés à nos entités
+
+
+### Inconvénients
+- client front doit le gérer de manière générique
+- swagger/openapi pas bon avec ça (génère des SalleLinks, TerrainLinks etc...)
+- ...
+Notes:
+- 
+
+
 ---
 ## Chapitre 1 : Premier rendez-vous
 Liens, découvrabilité et `_embedded`
 
 Notes:
 - statut : premier rendez-vous
-- TODO
+- Imaginons on a un début de dev
+- côté back Alice décide unilatéralement de changer une url de resources
 
 
 ### Le bug
 ```mermaid
 sequenceDiagram
-  participant J as John (Angular)
+  participant J as Bernard (Angular)
   participant A as Alice (Spring)
-  Note over A: vendredi 17h, refacto des URLs
+  Note over A: refacto des URLs
   A->>A: /api/terrains/{id} devient<br/>/api/sites/{id}/salles/{id}/terrains/{id}
   J->>A: GET /api/terrains/7
   A-->>J: 404 Not Found 💥
 ```
 Notes:
 - Alice réorganise l'API, vendredi 17h
-- les URLs codées en dur de John cassent en prod
+- les URLs codées en dur de Bernard cassent en prod
 - TODO
 
 
 ### Avant : Angular
-```typescript [4-5]
+```typescript [|4-5]
 @Injectable({ providedIn: 'root' })
 export class TerrainService {
   private http = inject(HttpClient);
@@ -310,10 +326,11 @@ A(shrug): Tu n'étais pas censé la connaître.
 ```
 Notes:
 - TODO
+- 
 
 
 ### Le fix : Spring
-```java [1-2|5-8|9]
+```java [|1-2|5-8|9]
 @GetMapping("/api")
 RepresentationModel<?> racine(@AuthenticationPrincipal ClubUser user) {
   var racine = new RepresentationModel<>();
@@ -332,7 +349,7 @@ Notes:
 
 
 ### Le fix : Angular
-```typescript [1-3|5-6]
+```typescript [|1-3|5-6]
 racine = httpResource<HalResource>(() => '/api');
 menu = computed(() => Object.entries(this.racine.value()?._links ?? {})
     .map(([rel, { href }]) => ({ rel, href })));
@@ -356,9 +373,10 @@ Notes:
 
 
 ### Démo
-Le détail d'une salle : URL en dur, puis lien suivi.
-
+~~Le détail d'une salle : URL en dur, puis lien suivi.~~
+<https://api.github.com/>
 Notes:
+- pas de démo donc example 
 - TODO
 
 
@@ -369,12 +387,13 @@ B(point): Pour afficher une salle et ses terrains,
 A(facepalm): ...
 ```
 Notes:
-- John a raison
+- Bernard a raison
+- pourquoi c'est ça serait au front de faire 
 - TODO
 
 
 ### Le fix rapide : `_embedded`
-```java [3-5|6-9]
+```java [|3-5|6-9]
 @GetMapping("/api/salles/{id}")
 RepresentationModel<?> salle(@PathVariable Long id) {
   var terrains = terrainRepository.findBySalle(id).stream()
@@ -400,8 +419,16 @@ Notes:
 - rien embarquer : retour aux N appels
 - un choix de conception de l'API, à faire à deux
 - en complément : le cache, avec le lien comme clé naturelle
+- réinventer graphql
 - TODO
 
+
+### Takeaways
+- découvrabilité
+- changements non-cassants entre back/front 
+- bien pour le crud a l'échelle
+Notes:
+- 
 
 ---
 ## Chapitre 2 : On emménage ensemble
@@ -415,7 +442,7 @@ Notes:
 ### Le bug
 ```mermaid
 sequenceDiagram
-  participant J as John (Angular)
+  participant J as Bernard (Angular)
   participant A as Alice (Spring)
   Note over A: offset → curseur
   J->>A: GET /api/resultats?page=3&size=20
@@ -429,7 +456,7 @@ Notes:
 
 
 ### Avant : Angular
-```typescript [1-2|4-6]
+```typescript [|1-2|4-6]
 page = signal(0);
 resultats = httpResource(() => `/api/resultats?page=${this.page()}`);
 
@@ -441,7 +468,8 @@ totalPages = computed(() =>
 <span>page {{ page() + 1 }} sur {{ totalPages() }}</span>
 ```
 Notes:
-- John calcule lui-même l'offset et le nombre de pages
+- Bernard calcule lui-même l'offset et le nombre de pages
+- example simple, mais j'ai vu tellement de code custom
 - TODO
 
 
@@ -456,7 +484,7 @@ Notes:
 
 
 ### Le fix : Spring
-```java [2-3|4]
+```java [|2-3|4]
 @GetMapping("/api/equipements")
 PagedModel<EntityModel<Equipement>> liste(Pageable pageable) {
   Page<Equipement> page = equipementRepository.findAll(pageable);
@@ -473,7 +501,7 @@ Notes:
 
 
 ### Le fix : Angular
-```typescript [1-2]
+```typescript [|1-2]
 url = signal('/api/equipements');
 page = httpResource<HalPage<Equipement>>(() => this.url());
 ```
@@ -521,13 +549,15 @@ Les permissions
 Notes:
 - statut : crise de confiance
 - TODO
+- beaucoup d'applis font leur gestion de droits côté front
+- je plaide coupable
 
 
 ### Le bug
 ```mermaid
 sequenceDiagram
   participant U as Adhérent
-  participant J as John (Angular)
+  participant J as Bernard (Angular)
   participant A as Alice (Spring)
   Note over A: délai d'annulation : 24h → 48h
   J->>U: bouton « Annuler » (règle 24h en dur)
@@ -537,7 +567,7 @@ sequenceDiagram
 ```
 Notes:
 - le club passe le délai à 48h, Alice change la règle
-- le front de John affiche toujours le bouton
+- le front de Bernard affiche toujours le bouton
 - en plus, l'horloge du navigateur n'est pas celle du serveur
 - TODO
 
@@ -564,7 +594,7 @@ Notes:
 
 
 ### Le fix : Spring
-```java [6-7|8-9|10-11]
+```java [|6-7|8-9|10-11]
 public EntityModel<Reservation> toModel(Reservation resa) {
   var ctrl = methodOn(ReservationController.class);
   var user = currentUser();
@@ -611,7 +641,7 @@ Notes:
 
 
 ### La réplique
-```java [2|5-6]
+```java [|2|5-6]
 // l'assembler
 if (resa.debut().isAfter(now().plusHours(48))) model.add(...annuler...);
 
@@ -629,7 +659,7 @@ Notes:
 
 
 ### La leçon
-```java [1-4|6|8-9]
+```java [|1-4|6|8-9]
 @Component("reservationPolicy")
 class ReservationPolicy {
   boolean peutAnnuler(User user, Reservation resa) { ... }
@@ -640,6 +670,7 @@ if (policy.peutAnnuler(user, resa)) model.add(...annuler...);
 @PreAuthorize("@reservationPolicy.peutAnnuler(principal, #id)")
 @PostMapping("/api/reservations/{id}/annulation")
 ```
+
 Notes:
 - une seule fonction de policy, utilisée par le lien et par le contrôle
 - le front *montre*, le back *décide* : un bouton masqué n'est pas une protection
@@ -661,7 +692,7 @@ Notes:
 ### Le bug
 ```mermaid
 sequenceDiagram
-  participant J as John (Angular)
+  participant J as Bernard (Angular)
   participant A as Alice (Spring)
   Note over A: motif obligatoire dans « refuser »
   J->>A: POST /refus {}
@@ -671,13 +702,13 @@ sequenceDiagram
   Note over J: un format par contrôleur 😩
 ```
 Notes:
-- le formulaire de John ignore le nouveau champ : des 400 en prod
+- le formulaire de Bernard ignore le nouveau champ : des 400 en prod
 - chaque contrôleur renvoie son propre format d'erreur
 - TODO
 
 
 ### Avant : Angular
-```typescript [1-3|5-7]
+```typescript [|1-3|5-7]
 refusForm = new FormGroup({
   motif: new FormControl(''), // obligatoire ? personne ne m'a prévenu
 });
@@ -693,17 +724,26 @@ Notes:
 
 
 ### La dispute
+
 ```xkcd
 A(point): Ta validation est fausse.
 B(point): Non, c'est la tienne.
 ```
+<!-- -->
 Notes:
 - la vérité : il y a deux copies, donc une des deux a toujours tort
 - TODO
 
 
+### HAL-FORMS
+Encore une spec
+<http://rwcbook.com/hal-forms/>
+Notes:
+- déso pas déso
+
+
 ### Le fix : Spring, HAL-FORMS
-```java [1-4|6-8]
+```java [|1-4|6-8]
 record Refus(@NotBlank String motif) {}
 @PostMapping("/api/reservations/{id}/refus")
 ResponseEntity<?> refuser(@PathVariable Long id,
@@ -724,7 +764,7 @@ Notes:
 
 
 ### Le fix : Angular, HAL-FORMS
-```typescript [1-2|3-8]
+```typescript [|1-2|3-8]
 model = signal<Record<string, unknown>>({});
 refusForm = form(this.model, (path) => {
   for (const p of this.template().properties) {
@@ -742,7 +782,7 @@ Notes:
 
 
 ### Le fix : Spring, ProblemDetail
-```java [1-3|4-7|8]
+```java [|1-3|4-7|8]
 @ExceptionHandler(MethodArgumentNotValidException.class)
 ProblemDetail validation(MethodArgumentNotValidException ex) {
   var problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
@@ -762,7 +802,7 @@ Notes:
 
 
 ### Le fix : Angular, ProblemDetail
-```typescript [2|4-5]
+```typescript [|2|4-5]
 export const problemInterceptor: HttpInterceptorFn = (req, next) => {
   const problems = inject(ProblemStore);
   return next(req).pipe(catchError((err: HttpErrorResponse) => {
@@ -804,7 +844,7 @@ B(facepalm): Non.
 Notes:
 - la designer veut le planning hebdomadaire des salles, grille calendrier et drag & drop
 - le back choisit alors les widgets UI : c'est la ligne rouge
-- démo honnête : ici, le générique craque, et John code du sur-mesure
+- démo honnête : ici, le générique craque, et Bernard code du sur-mesure
 - TODO
 
 
@@ -830,7 +870,7 @@ sequenceDiagram
   A-->>U: 409 Conflict 💥
 ```
 Notes:
-- John met les réservations en cache dans un store global
+- Bernard met les réservations en cache dans un store global
 - l'adhérent voit encore « Annuler » : données *et* liens périmés
 - TODO
 
@@ -862,19 +902,18 @@ Notes:
 
 ### La séance de thérapie
 - État serveur : Alice, avec ses liens
-- État UI : John (routes, filtres, sélection)
-- État statique : personne
+- État UI : Bernard (routes, filtres, sélection)
 
 Notes:
 - l'état serveur appartient à Alice, avec ses liens
-- l'état UI appartient à John : routes, filtres, sélection, query params
+- l'état UI appartient à Bernard : routes, filtres, sélection, query params
 - les solutions actuelles et leurs limites
 - réponse au teaser du ch. 2 : l'état de pagination et des filtres vit dans les query params
 - TODO
 
 
 ### Le fix : Angular, sans store
-```typescript [1|3-7]
+```typescript [|1|3-7]
 resa = httpResource<HalResource<Reservation>>(() => this.selfHref());
 
 annuler() {
@@ -915,7 +954,7 @@ A(shrug): Score live et UI optimiste ?
 B(shrug): HATEOAS n'est pas le bon outil.
 ```
 Notes:
-- pour une fois, Alice et John sont d'accord
+- pour une fois, Alice et Bernard sont d'accord
 - TODO
 
 
@@ -927,45 +966,59 @@ Notes:
 
 
 ### Le contrat de mariage
-HAL + HAL-FORMS + ProblemDetails
+HAL + HAL-FORMS = ❤️
 
 Notes:
-- accepté par les deux équipes
+- Pour conclure
+- on peut aller plus loin que le simple REST
 - TODO
 
 
-### 3 avantages, pas plus
-- une seule source de vérité
-- moins de duplication front/back
-- un couplage faible aux URLs
-
+### Avantages
+- standardisation des échanges<!-- .element class="fragment" -->
+- découvrabilité<!-- .element class="fragment" -->
+- source unique de vérité<!-- .element class="fragment" -->
+- moins de duplication<!-- .element class="fragment" -->
+- formulaires et navigation génériques<!-- .element class="fragment" -->
+- couplage faible aux URLs<!-- .element class="fragment" -->
+- Angular moderne rend cette relation plus vivable qu'avant<!-- .element class="fragment" -->
 Notes:
-- source de vérité : permissions, navigation, validation, erreurs
-- TODO
+- standardisation des échanges
+- découvrabilité: l'API se documente elle-même, le front explore les `_links`
+- source unique de vérité: le back décide, le front exécute (permissions, navigation)
+- moins de duplication: permissions, pagination, validation ne vivent plus en double
+- formulaires et navigation génériques: on code une fois, ça marche partout
+- couplage faible aux URLs: le back peut bouger ses routes sans casser le front
+- Angular moderne (signals + `resource()` + ngrx-hateoas) rend cette relation vivable
+- Specs vieilles : Les LLMs ont ça dans leur entrainement
 
 
-### Quand passer son chemin
-- ch. 1 : allers-retours, payloads lourds <!-- .element class="fragment" -->
-- ch. 2 : « page N », URLs partageables <!-- .element class="fragment" -->
-- ch. 3 : policy dupliquée côté back <!-- .element class="fragment" -->
-- ch. 4 : UX sur-mesure <!-- .element class="fragment" -->
-- ch. 5 : UI optimiste, temps réel <!-- .element class="fragment" -->
+### Inconvénients / quand ne pas utiliser
 
+- nécéssite une certaine échelle<!-- .element class="fragment" -->
+- dès qu'on sort du générique<!-- .element class="fragment" -->
+- verbosité / poids des payloads<!-- .element class="fragment" -->
+- courbe d'apprentissage et culture d'équipe<!-- .element class="fragment" -->
+- performance / first paint : attention aux allers-retours pour « découvrir » l'API / créer les forms<!-- .element class="fragment" -->
+- pas adapté aux apps très offline-first<!-- .element class="fragment" -->
 Notes:
-- on reprend les répliques des chapitres 1 à 5
-- et en plus : il faut une certaine échelle et un back discipliné
-- TODO
+- nécéssite une certaine échelle nombre d'APIs / entités à gérer.
+- sortir du générique: dès que l'UX devient trop spécifique.
+- verbosité / poids des payloads (`_links` partout)
+- courbe d'apprentissage et culture d'équipe (back ET front doivent jouer le jeu)
+- couplage fort à un back non-discipliné: si l'API triche, tout s'écroule
+- performance / first paint : attention aux allers-retours pour « découvrir » l'API
+- pas adapté aux apps très offline-first ou très optimistes côté UI
 
 
-### Message final
-> HATEOAS n'est pas une religion, c'est un curseur.
+### Pour conclure
 
+- HATEOAS: curseur entre « back source de vérité », « API orientées métier » et « front autonome »<!-- .element class="fragment" -->
+- à adopter pour le générique et le piloté-par-permissions, à éviter pour le sur-mesure<!-- .element class="fragment" -->
+- suivre les liens, pas les URLs; afficher ce que le back autorise<!-- .element class="fragment" -->
+- on passe de HATEOAS uniquement au niveau « client d'API » à HATEOAS au niveau de la gestion d'état / formulaires<!-- .element class="fragment" -->
 Notes:
-- suivre les liens, pas les URLs
-- afficher ce que le back autorise
-- de HATEOAS « client d'API » à HATEOAS « gestion d'état »
-- hors scope (à l'oral) : tests de contrat front/back, versioning d'API
-- TODO
+- 
 
 
 ### 💘
@@ -973,16 +1026,35 @@ Notes:
 {
   "_links": {
     "self": { "href": "/alice" },
-    "love": { "href": "/john" }
+    "love": { "href": "/bernard" }
   }
 }
 ```
 Notes:
-- John sait quoi en faire
+- Bernard sait quoi en faire
+- Attention aux RH
 - TODO
 
 
 ### Sources
+- restguide : <https://www.restguide.info/hateoas>
+- specs : 
+  - HAL : <https://stateless.co/hal_specification.html>
+  - HAL-FORMS : <http://rwcbook.com/hal-forms/>
+- libs front :
+  - librairie ngrx-hateoas : <https://angular-architects.github.io/ngrx-hateoas/>
+  - ngx-hateoas-client : <https://github.com/lagoshny/ngx-hateoas-client>
+- implémentations côté back.
+  - java/spring-boot : <https://docs.spring.io/spring-hateoas/docs/current/reference/html/>
+  - node.js : <https://www.npmjs.com/package/hal>
+  - C#/dotnet : <https://github.com/danielmurrmann/Fancy.ResourceLinker>
+
+
+### Sources (2)
+- essai de roy fielding : <https://ics.uci.edu/~fielding/pubs/dissertation/>
+- modèle de maturité de richardson https://martinfowler.com/articles/richardsonMaturityModel.html
+- comics / conversations inspirées de [XKCD](https://xkcd.com)
+- police XKCD sous licence CC BY-NC 3.0 récupérée de <https://github.com/ipython/xkcd-font>
 
 
 ### Slides
@@ -990,107 +1062,4 @@ Notes:
 
 <img src="qrcodes/github-slides.png" class="qrcode"/>
 
-
----
-## Démos reveal.js/mermaid
-
-```mermaid
-classDiagram
-  class Customer {
-    +String name
-    +String email
-  }
-  class Order {
-    +String id
-    +Date placedAt
-    +total() Money
-  }
-  class LineItem {
-    +int quantity
-  }
-  class Payment {
-    <<interface>>
-    +authorise() bool
-  }
-  Customer "1" --> "*" Order : places
-  Order "1" *-- "*" LineItem : contains
-  Order --> Payment : settled by
-```
-
-
-```mermaid
-erDiagram
-          CUSTOMER }|..|{ DELIVERY-ADDRESS : has
-          CUSTOMER ||--o{ ORDER : places
-          CUSTOMER ||--o{ INVOICE : "liable for"
-          DELIVERY-ADDRESS ||--o{ ORDER : receives
-          INVOICE ||--|{ ORDER : covers
-          ORDER ||--|{ ORDER-ITEM : includes
-          PRODUCT-CATEGORY ||--|{ PRODUCT : contains
-          PRODUCT ||--o{ ORDER-ITEM : "ordered in"
-```
-
-
-```mermaid
-graph TD
-    A[Enter Chart Definition] --> B(Preview)
-    B --> C{decide}
-    C --> D[Keep]
-    C --> E[Edit Definition]
-    E --> B
-    D --> F[Save Image and Code]
-    F --> B
-```
-
-
-```mermaid
-sequenceDiagram
-    Alice->>John: Hello John, how are you?
-    John-->>Alice: Great!
-    Alice-)John: See you later!
-```
-
-
-```mermaid 
-stateDiagram-v2
-  [*] --> Draft
-  Draft --> Submitted : submit
-  state Review {
-    [*] --> Screening
-    Screening --> Decision
-  }
-  Submitted --> Review
-  Review --> Published : approved
-  Review --> Draft : rejected
-  Published --> [*]
-```
-
-
-```xkcd
-A: Hi Bob, have you ever heard of HATEOAS?
-B(shrug): Is that some kind of French cheese?
-A(facepalm): No... It's about putting links in your API responses,
-  so the client knows what it can do next.
-B(armsup): So my SPA doesn't need to hardcode every URL?
-A(point): Exactly!
-```
-
-
-```typescript
-export interface PaginationState {
-  currentPage: number;
-  pageSize: number;
-  totalElements: number;
-  totalPages: number;
-  /**
-   * Active sort clause(s). Defaults to `undefined` (let the server decide its
-   * default ordering); set an app-specific default via the `withPagination`
-   * initial-state override.
-   */
-  sort: string | string[] | undefined;
-  /** IDs of the entities that belong to the current page, in server order. */
-  currentPageIds: EntityId[];
-}
-
-```
 
