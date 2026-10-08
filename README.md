@@ -164,3 +164,11 @@ On regarde, feature par feature, comment Angular moderne (signals, `resource()`,
 - comics / conversations inspirées de [XKCD](https://xkcd.com)
 - police XKCD sous licence CC BY-NC 3.0 récupérée de <https://github.com/ipython/xkcd-font>
 
+## Feedbacks
+
+- enlever la partie "gestion d'erreurs" pour gagner du temps
+- parler de ngrx-hateoas
+- rappeler plus le thème du sport, améliorer les dialogues au démarrage de chaque partie
+- différentier les personnages cheveux/chapeau
+- ajouter l'image de chaque lors du kickoff initial
+
