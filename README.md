@@ -148,19 +148,18 @@ On regarde, feature par feature, comment Angular moderne (signals, `resource()`,
 ---
 
 ## Sources
-- restguide : <https://www.restguide.info/hateoas>
-- specs : 
+- essai de roy fielding sur REST: <https://ics.uci.edu/~fielding/pubs/dissertation/>
+- specs/normes : 
   - HAL : <https://stateless.co/hal_specification.html>
   - HAL-FORMS : <http://rwcbook.com/hal-forms/>
+- restguide : <https://www.restguide.info/hateoas>
 - libs front :
   - librairie ngrx-hateoas : <https://angular-architects.github.io/ngrx-hateoas/>
-  - ngx-hateoas-client : https://github.com/lagoshny/ngx-hateoas-client
+  - ngx-hateoas-client : <https://github.com/lagoshny/ngx-hateoas-client#ngxhateoasclient>
 - implémentations côté back.
   - java/spring-boot : <https://docs.spring.io/spring-hateoas/docs/current/reference/html/>
   - node.js : <https://www.npmjs.com/package/hal>
   - C#/dotnet : <https://github.com/danielmurrmann/Fancy.ResourceLinker>
-
-- essai de roy fielding : <https://ics.uci.edu/~fielding/pubs/dissertation/>
 - chaque ligne de code est de la dette technique : <https://x.com/matteocollina/status/2072762093346922907>
 - comics / conversations inspirées de [XKCD](https://xkcd.com)
 - police XKCD sous licence CC BY-NC 3.0 récupérée de <https://github.com/ipython/xkcd-font>

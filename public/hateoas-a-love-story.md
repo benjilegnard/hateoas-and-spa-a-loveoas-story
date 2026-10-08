@@ -2,15 +2,15 @@
 
 
 ## Introduction
-- Benjamin Legrand / `@benjilegnard`
-- Tech Lead @ __onepoint__<!-- .element class="poppins"-->
+- Benjamin Legrand /<!-- .element class="fragment"--> `@benjilegnard`
+- Tech Lead<!-- .element class="fragment"--> @ __onepoint__<!-- .element class="poppins"-->
 - Expert front, mais gros bagage ☕Java™<!-- .element class="fragment"-->
 - (🅰️ngular/🍃spring-boot)<!-- .element class="fragment"-->
-- Janvier 2026<!-- .element class="fragment"-->
+- Début 2026<!-- .element class="fragment"-->
 Notes:
 - présentation speaker
-- qui connait déjà HATEOAS?
 - 
+- qui connait déjà HATEOAS?
 - avant d'aborder HATEOAS, il faut qu'on parle de REST
 
 
@@ -232,6 +232,17 @@ Notes:
 - beaucoup de nos api font juste ça 
 
 
+### Le contrat du couple
+```json [|3-6]
+{
+  "statut": "DEMANDEE",
+  "_links": {
+    "self":      { "href": "/api/reservations/42" },
+    "confirmer": { "href": "/api/reservations/42/confirmation" }
+  },
+```
+
+
 ### Le contrat du couple (2)
 
 ```json [3-6|7-9|10-15]
@@ -261,7 +272,6 @@ Notes:
 
 ### Statut de la relation
 *« C'est compliqué »*
-
 Notes:
 - TODO
 
@@ -275,7 +285,13 @@ Notes:
 - swagger/openapi pas bon avec ça (génère des SalleLinks, TerrainLinks etc...)
 - ...
 Notes:
-- 
+- TODO
+
+
+### Comment gérer ça ?
+[spring-hateoas](https://docs.spring.io/spring-hateoas/docs/current/reference/html/)
+Notes:
+- TODO
 
 
 ---
